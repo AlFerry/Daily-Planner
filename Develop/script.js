@@ -5,9 +5,8 @@ var container = $('.container');
 $('#currentDay').text(today.format("dddd, MMMM Do"));
 console.log(hour);
 
-//localStorage.setItem('hour-8', /*"Hour 8 text value, need multi-line input capability"*/);
 
-//for loop to loop through hours in work day
+//for loop to loop through hours in work day (8am to 5pm in military time)
 for(var i=8; i<=17; i++){
     var hourData;
         if(i<12){
@@ -31,13 +30,13 @@ for(var i=8; i<=17; i++){
         else{
             blockTense="future";
         }
-    var savedValueForHour = localStorage.getItem("hour-"+i);
-    if(!savedValueForHour){
-        savedValueForHour="";
+    var savedTask = localStorage.getItem("hour-"+i);
+    if(!savedTask){
+        savedTask="";
     }
     var timeblockEl = `<div class="row time-block">
     <div class="col-md-1 hour">${hourData}</div>
-    <textarea class="col-md-10 description ${blockTense}" id="hour-${i}">${savedValueForHour}</textarea>
+    <textarea class="col-md-10 description ${blockTense}" id="hour-${i}">${savedTask}</textarea>
     <button class="btn saveBtn col-md-1">save</button></div>`
     
     container.append(timeblockEl);
@@ -47,20 +46,8 @@ for(var i=8; i<=17; i++){
 
 var newTask;
 
-container.on("click", "button", function(event){
-    var taskInput = $(this).siblings(".textarea").attr("id");
-    console.log(taskInput);
-    newTask = $(this).siblings(".textarea").val();
+container.on("click", "button", function(e){
+    var taskInput = this.parentElement.children[1].getAttribute("id");
+    newTask = this.parentElement.children[1].value;
     localStorage.setItem(taskInput, newTask);
-    console.log(newTask)
 });
-/*
-    //save current hour to data attribute to be accessed from event listener
-    //
-    
-   // var savedValueForHour = localStorage.getItem("hour-" + i);
-
-// <textarea></> for text input*
-$('.container').on('click','button',function(event)){
-   $event.target.data()
-});*/
